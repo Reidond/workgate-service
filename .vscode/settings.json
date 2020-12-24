@@ -2,5 +2,5 @@
   "python.linting.pylintEnabled": true,
   "python.linting.enabled": true,
   "python.formatting.provider": "yapf",
-  "python.pythonPath": "C:\\Users\\reido\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe"
+  "python.pythonPath": "/usr/local/bin/python3"
 }
