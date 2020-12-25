@@ -2,5 +2,15 @@
   "python.linting.pylintEnabled": true,
   "python.linting.enabled": true,
   "python.formatting.provider": "yapf",
-  "python.pythonPath": "/usr/local/bin/python3"
+  "platformSettings.autoLoad": true,
+  "platformSettings.platforms": {
+    "win32": {
+      "nodes": {
+        "python.pythonPath": "C:\\Users\\reido\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe"
+      }
+    },
+    "linux": {
+      "nodes": {}
+    }
+  }
 }
