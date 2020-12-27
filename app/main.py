@@ -4,6 +4,6 @@ from sanic_cors import CORS
 
 app = Sanic(__name__)
 app.blueprint(functions)
-CORS(app, resources=r'/functions/*')
+CORS(app, resources={r'/functions/*': {"origins": "*"}})
 
 app.run(host='0.0.0.0', port=3001, debug=False)
