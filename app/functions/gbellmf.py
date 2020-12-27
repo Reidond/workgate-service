@@ -17,6 +17,15 @@ def gbellmf_fn(x, params):
     return 1 / (1 + pow(abs((x - c) / a), (2 * b)))
 
 
+def gbellmf_fn_of_x(x, a, b, c):
+    left_y = np.sort([gbellmf_fn(xj, [a, b, c]) for xj in x],
+                     axis=-1,
+                     kind="stable")
+    right_y = np.flip(np.sort(left_y, axis=-1, kind="stable"))
+    y = [*left_y, *right_y]
+    return y
+
+
 @gbellmf.route('/', methods=[
     "POST",
 ])
@@ -26,12 +35,7 @@ async def gbellmf_route(request):
     a = int(request.json['a'])
     b = int(request.json['b'])
     c = int(request.json['c'])
-
-    left_y = np.sort([gbellmf_fn(xj, [a, b, c]) for xj in x],
-                     axis=-1,
-                     kind="stable")
-    right_y = np.flip(np.sort(left_y, axis=-1, kind="stable"))
-    y = [*left_y, *right_y]
+    y = gbellmf_fn_of_x(x, a, b, c)
 
     p = figure(plot_width=400, plot_height=400)
     p.line(np.linspace(int(start), int(stop), num=100), y, line_width=2)
