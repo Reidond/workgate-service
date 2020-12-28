@@ -6,19 +6,14 @@ from bokeh.plotting import figure
 from bokeh.embed import json_item
 import numpy as np
 
-gbellmf = Blueprint('functions_gbellmf', url_prefix='/gbellmf')
+gbellmf_bp = Blueprint('functions_gbellmf', url_prefix='/gbellmf')
 
 
-def gbellmf_fn(x, params):
-    assert len(
-        params
-    ) == 3, 'Generalized membership function must have three parameters.'
-    a, b, c = np.asarray(params)
-    return 1 / (1 + pow(abs((x - c) / a), (2 * b)))
+def gbellmf(x, a, b, c):
+    def local(lx, la, lb, lc):
+        return 1 / (1 + pow(abs((lx - lc) / la), (2 * lb)))
 
-
-def gbellmf_fn_of_x(x, a, b, c):
-    left_y = np.sort([gbellmf_fn(xj, [a, b, c]) for xj in x],
+    left_y = np.sort([local(xj, a, b, c) for xj in x],
                      axis=-1,
                      kind="stable")
     right_y = np.flip(np.sort(left_y, axis=-1, kind="stable"))
@@ -26,7 +21,7 @@ def gbellmf_fn_of_x(x, a, b, c):
     return y
 
 
-@gbellmf.route('/', methods=[
+@gbellmf_bp.route('/', methods=[
     "POST",
 ])
 async def gbellmf_route(request):
@@ -35,7 +30,7 @@ async def gbellmf_route(request):
     a = int(request.json['a'])
     b = int(request.json['b'])
     c = int(request.json['c'])
-    y = gbellmf_fn_of_x(x, a, b, c)
+    y = gbellmf(x, a, b, c)
 
     p = figure(plot_width=400, plot_height=400)
     p.line(np.linspace(int(start), int(stop), num=100), y, line_width=2)
