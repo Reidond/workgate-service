@@ -5,3 +5,5 @@ __pycache__
 /.idea/.gitignore
 /.idea/misc.xml
 /.idea/other.xml
+*.log
+*.png
