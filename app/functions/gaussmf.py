@@ -48,6 +48,8 @@ async def gaussmf_image_route(request):
     filename = "gaussmf.png"
     p = figure(plot_width=400, plot_height=400)
     p.line(np.linspace(int(start), int(stop), num=100), y, line_width=2)
+    p.toolbar.logo = None
+    p.toolbar_location = None
     export_png(p, filename=filename, height=400, width=400, webdriver=BROWSER)
 
     file_path = os.path.join(pathlib.Path().absolute(), filename)

@@ -11,48 +11,48 @@ import numpy as np
 import pathlib
 from aiofiles import os as async_os
 
-gbellmf_bp = Blueprint('functions_gbellmf', url_prefix='/gbellmf')
+sigmf_bp = Blueprint('functions_sigmf', url_prefix='/sigmf')
 
 
-def gbellmf(x, a, b, c):
-    def local(lx, la, lb, lc):
-        return 1 / (1 + pow(abs((lx - lc) / la), (2 * lb)))
+def sigmf(x, a, b):
+    def local(lx, la, lb):
+        return 1 / (1 + pow(np.e, (-la * (lx - lb))))
 
-    left_y = np.sort([local(xj, a, b, c) for xj in x], axis=-1, kind="stable")
-    right_y = np.flip(np.sort(left_y, axis=-1, kind="stable"))
-    y = [*left_y, *right_y]
-    return y
+    if type(x) is not np.ndarray:
+        x = np.asarray([x])
+
+    left_y = np.sort([local(xj, a, b) for xj in x], axis=-1, kind="stable")
+
+    return left_y
 
 
-@gbellmf_bp.route('/', methods=[
+@sigmf_bp.route('/', methods=[
     "POST",
 ])
-async def gbellmf_route(request):
+async def sigmf_route(request):
     start, stop = request.json['x'].split(':')
     x = np.linspace(int(start), int(stop))
     a = int(request.json['a'])
     b = int(request.json['b'])
-    c = int(request.json['c'])
-    y = gbellmf(x, a, b, c)
+    y = sigmf(x, a, b)
 
     p = figure(plot_width=400, plot_height=400)
-    p.line(np.linspace(int(start), int(stop), num=100), y, line_width=2)
+    p.line(x, y, line_width=2)
 
-    return response.json(json_item(p, "gbellmf"))
+    return response.json(json_item(p, "sigmf"))
 
 
-@gbellmf_bp.route("/image")
-async def gbellmf_image_route(request):
+@sigmf_bp.route("/image")
+async def sigmf_image_route(request):
     start, stop = request.args['x'][0].split(':')
     x = np.linspace(int(start), int(stop))
     a = int(request.args['a'][0])
     b = int(request.args['b'][0])
-    c = int(request.args['c'][0])
-    y = gbellmf(x, a, b, c)
+    y = sigmf(x, a, b)
 
-    filename = "gbellmf.png"
+    filename = "sigmf.png"
     p = figure(plot_width=400, plot_height=400)
-    p.line(np.linspace(int(start), int(stop), num=100), y, line_width=2)
+    p.line(x, y, line_width=2)
     p.toolbar.logo = None
     p.toolbar_location = None
     export_png(p, filename=filename, height=400, width=400, webdriver=BROWSER)
