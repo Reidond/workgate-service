@@ -1,3 +1,4 @@
+from app.browser import BROWSER
 from bokeh.embed import json_item
 from bokeh.plotting import figure
 from sanic import Blueprint, response
@@ -47,7 +48,7 @@ async def gaussmf_image_route(request):
     filename = "gaussmf.png"
     p = figure(plot_width=400, plot_height=400)
     p.line(np.linspace(int(start), int(stop), num=100), y, line_width=2)
-    export_png(p, filename=filename, height=400, width=400)
+    export_png(p, filename=filename, height=400, width=400, webdriver=BROWSER)
 
     file_path = os.path.join(pathlib.Path().absolute(), filename)
     file_stat = await async_os.stat(file_path)
