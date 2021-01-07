@@ -37,8 +37,11 @@ async def hbmf_route(request):
     a = int(request.json['a'])
     y = hbmf(x, x0, a)
 
-    p = figure(plot_width=400, plot_height=400)
-    p.line(x, y, line_width=2)
+    p = figure(
+        plot_width=400,
+        plot_height=400,
+    )
+    p.line(x, y, line_width=2, line_color=palette('light').line_color)
 
     return response.json(json_item(p, "hbmf"))
 
@@ -52,12 +55,11 @@ async def hbmf_image_route(request):
     y = hbmf(x, x0, a)
 
     filename = "hbmf.png"
-    p = figure(plot_width=400, plot_height=400)
-    p.line(
-        x,
-        y,
-        line_width=2,
+    p = figure(
+        plot_width=400,
+        plot_height=400,
     )
+    p.line(x, y, line_width=2, line_color=palette('light').line_color)
     p.toolbar.logo = None
     p.toolbar_location = None
     export_png(p, filename=filename, height=400, width=400, webdriver=BROWSER)

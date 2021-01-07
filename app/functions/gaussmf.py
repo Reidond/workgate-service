@@ -1,3 +1,4 @@
+from app.colors import palette
 from app.browser import BROWSER
 from bokeh.embed import json_item
 from bokeh.plotting import figure
@@ -32,7 +33,10 @@ async def gaussmf_route(request):
     y = gaussmf(x, a, b)
 
     p = figure(plot_width=400, plot_height=400)
-    p.line(np.linspace(int(start), int(stop), num=100), y, line_width=2)
+    p.line(np.linspace(int(start), int(stop), num=100),
+           y,
+           line_width=2,
+           line_color=palette('light').line_color)
 
     return response.json(json_item(p, "gaussmf"))
 
@@ -47,7 +51,10 @@ async def gaussmf_image_route(request):
 
     filename = "gaussmf.png"
     p = figure(plot_width=400, plot_height=400)
-    p.line(np.linspace(int(start), int(stop), num=100), y, line_width=2)
+    p.line(np.linspace(int(start), int(stop), num=100),
+           y,
+           line_width=2,
+           line_color=palette('light').line_color)
     p.toolbar.logo = None
     p.toolbar_location = None
     export_png(p, filename=filename, height=400, width=400, webdriver=BROWSER)

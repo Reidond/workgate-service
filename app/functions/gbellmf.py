@@ -1,6 +1,7 @@
 # Колокоподібна функція належності
 # Bell-shaped membership function
 
+from app.colors import palette
 import os
 from bokeh.io.export import export_png
 from app.browser import BROWSER
@@ -36,7 +37,10 @@ async def gbellmf_route(request):
     y = gbellmf(x, a, b, c)
 
     p = figure(plot_width=400, plot_height=400)
-    p.line(np.linspace(int(start), int(stop), num=100), y, line_width=2)
+    p.line(np.linspace(int(start), int(stop), num=100),
+           y,
+           line_width=2,
+           line_color=palette('light').line_color)
 
     return response.json(json_item(p, "gbellmf"))
 
@@ -52,7 +56,10 @@ async def gbellmf_image_route(request):
 
     filename = "gbellmf.png"
     p = figure(plot_width=400, plot_height=400)
-    p.line(np.linspace(int(start), int(stop), num=100), y, line_width=2)
+    p.line(np.linspace(int(start), int(stop), num=100),
+           y,
+           line_width=2,
+           line_color=palette('light').line_color)
     p.toolbar.logo = None
     p.toolbar_location = None
     export_png(p, filename=filename, height=400, width=400, webdriver=BROWSER)
