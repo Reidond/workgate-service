@@ -9,8 +9,10 @@
         "python.pythonPath": "C:\\Users\\reido\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe"
       }
     },
-    "linux": {
-      "nodes": {}
+    "mac": {
+      "nodes": {
+        "python.pythonPath": "/usr/local/bin/python3"
+      }
     }
   }
 }
