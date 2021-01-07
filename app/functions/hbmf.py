@@ -1,6 +1,7 @@
 # Гіперболоїдна функція належності
 # Hyperboloid membership function
 
+from app.colors import palette
 import os
 from bokeh.io.export import export_png
 from app.browser import BROWSER
@@ -52,7 +53,11 @@ async def hbmf_image_route(request):
 
     filename = "hbmf.png"
     p = figure(plot_width=400, plot_height=400)
-    p.line(x, y, line_width=2)
+    p.line(
+        x,
+        y,
+        line_width=2,
+    )
     p.toolbar.logo = None
     p.toolbar_location = None
     export_png(p, filename=filename, height=400, width=400, webdriver=BROWSER)
