@@ -1,5 +1,7 @@
-# Колокоподібна функція належності
-# Bell-shaped membership function
+"""
+Узагальнена сигмоїдальна функція належності
+Generalized sigmoid membership function
+"""
 
 from app.colors import palette
 import os

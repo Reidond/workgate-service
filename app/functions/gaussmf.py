@@ -1,3 +1,8 @@
+"""
+Гаусова функція належності
+Gaussian membership function
+"""
+
 from app.colors import palette
 from app.browser import BROWSER
 from bokeh.embed import json_item
